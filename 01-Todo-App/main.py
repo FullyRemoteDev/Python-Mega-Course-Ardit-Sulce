@@ -3,7 +3,7 @@ user_prompt = "Enter a Todo: "
 todos = []
 
 while True:
-    user_action = input("Choose add, show, edit or exit: ")
+    user_action = input("Choose add, show, edit, complete or exit: ")
     user_action = user_action.strip()
 
     match user_action:
@@ -11,13 +11,16 @@ while True:
             todo = input("Enter a todo: ")
             todos.append(todo)
         case 'show':
-            for item in todos:
+            for index, item in enumerate(todos):
                 item = item.title()
-                print(item)
+                print(index + 1, '-', item)
         case 'edit':
-            number = int(input("Enter the number of the todo to edit: "))
+            edit_item_index = int(input("Enter the number of the todo to edit: "))
             new_todo = input("Enter new todo: ")
-            todos[number - 1] = new_todo
+            todos[edit_item_index - 1] = new_todo
+        case 'complete':
+            completed_item_index = int(input("Enter the number of the completed todo: "))
+            todos.pop(completed_item_index - 1)
         case 'exit':
             break
         case _:
