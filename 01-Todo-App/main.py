@@ -13,7 +13,7 @@ while True:
         case 'show':
             for index, item in enumerate(todos):
                 item = item.title()
-                print(index + 1, '-', item)
+                print(f"{index + 1} - {item}")
         case 'edit':
             edit_item_index = int(input("Enter the number of the todo to edit: "))
             new_todo = input("Enter new todo: ")
