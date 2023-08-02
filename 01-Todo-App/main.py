@@ -6,34 +6,54 @@ while True:
         case 'add':
             todo = input("Enter a todo: ") + "\n"
 
-            file = open('todos.txt', 'r')
-            todos = file.readlines()
-            file.close()
+            with open('todos.txt', 'r') as file:
+                todos = file.readlines()
 
             todos.append(todo)
 
-            file = open('todos.txt', 'w')
-            file.writelines(todos)
-            file.close()
+            with open('todos.txt', 'w') as file:
+                file.writelines(todos)
+
         case 'show':
-            file = open('todos.txt', 'r')
-            todos = file.readlines()
-            file.close()
+            with open('todos.txt', 'r') as file:
+                todos = file.readlines()
 
             # new_todos = [item.strip('\n') for item in todos]
 
             for index, item in enumerate(todos):
                 item = item.strip('\n').title()
                 print(f"{index + 1} - {item}")
+
         case 'edit':
             edit_item_index = int(input("Enter the number of the todo to edit: "))
-            new_todo = input("Enter new todo: ")
+
+            with open('todos.txt', 'r') as file:
+                todos = file.readlines()
+
+            new_todo = input("Enter new todo: ") + '\n'
             todos[edit_item_index - 1] = new_todo
+
+            with open('todos.txt', 'w') as file:
+                file.writelines(todos)
+
         case 'complete':
-            completed_item_index = int(input("Enter the number of the completed todo: "))
-            todos.pop(completed_item_index - 1)
+            completed_item_index = int(input("Enter the number of the completed todo: ")) - 1
+
+            with open('todos.txt', 'r') as file:
+                file.readlines()
+
+            todo_to_remove = todos[completed_item_index].strip('\n')
+            todos.pop(completed_item_index)
+
+            with open('todos.txt', 'w') as file:
+                file.writelines(todos)
+
+            message = f"\nTodo '{todo_to_remove}' was removed from the list\n"
+            print(message)
+
         case 'exit':
             break
+
         case _:
             print("Hey, you entered an unknown command")
 
