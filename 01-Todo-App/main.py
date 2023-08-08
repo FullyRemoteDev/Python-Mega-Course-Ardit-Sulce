@@ -1,5 +1,10 @@
 # from functions import get_todos, write_todos
 import functions
+import time
+
+
+now = time.strftime('%b %d, %Y %H:%M:%S')
+print(f"\nIt is {now}\n")
 
 while True:
     user_action = input("Choose add, show, edit, complete or exit: ")
