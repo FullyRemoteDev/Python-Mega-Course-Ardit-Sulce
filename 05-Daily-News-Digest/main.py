@@ -1,7 +1,13 @@
-import requests as rq
+import os
 
-news_api = 'f74721da87c742d89c767d6c6f2b7976'
-url = (f'https://newsapi.org/v2/everything?q=tesla&from=2023-07-17'
+import requests as rq
+from dotenv import load_dotenv
+from send_email import send_email
+
+load_dotenv()
+news_api = os.getenv('APP5_NEWS_API_KEY')
+news_topic = 'tesla'
+url = (f'https://newsapi.org/v2/everything?q={news_topic}'
        f'&sortBy=publishedAt&apiKey={news_api}')
 
 # Making the request
@@ -12,6 +18,10 @@ content = request.json()
 articles = content['articles']
 
 # List article titles and descriptions
+body = ''
 for article in articles:
-    print(article['title'])
-    print(article['description'])
+    if article['title'] is not None:
+        body = body + article['title'] + '\n' + article['description'] + '\n\n'
+
+body = body.encode('utf-8')
+send_email(message=body)
