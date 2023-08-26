@@ -1,5 +1,6 @@
 import cv2
 import time
+import glob
 from sending_email import send_email
 
 pc_cam_port = 0
@@ -8,6 +9,7 @@ time.sleep(1)
 
 first_frame = None
 objects_list = []
+count = 1
 day_and_time = time.strftime("%A, %d %b %Y %H:%M:%S")
 
 while True:
@@ -47,6 +49,11 @@ while True:
         if rectangle.any():
             # Object enters the scene (value changes from 0 to 1)
             object_in_view = 1
+            cv2.imwrite(f'images/{count}.png', frame)
+            count += 1
+            all_images = glob.glob('images/*.png')
+            index = int(len(all_images) / 2)
+            object_image = all_images[index]
 
     # Store all the object intrusions (0 or 1) in the list
     objects_list.append(object_in_view)
@@ -55,7 +62,7 @@ while True:
 
     # Check if object exits the scene (value changes from 1 to 0)
     if objects_list[0] == 1 and objects_list[1] == 0:
-        send_email()
+        send_email(object_image)
 
     # Add Day and Time overlay on the video feed
     cv2.putText(frame,
