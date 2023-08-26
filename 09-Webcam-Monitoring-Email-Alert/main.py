@@ -1,6 +1,7 @@
 import cv2
 import time
 import glob
+import os
 from sending_email import send_email
 
 pc_cam_port = 0
@@ -11,6 +12,13 @@ first_frame = None
 objects_list = []
 count = 1
 day_and_time = time.strftime("%A, %d %b %Y %H:%M:%S")
+
+
+def clean_folder():
+    images = glob.glob('images/*.png')
+    for image in images:
+        os.remove(image)
+
 
 while True:
     object_in_view = 0
@@ -63,6 +71,7 @@ while True:
     # Check if object exits the scene (value changes from 1 to 0)
     if objects_list[0] == 1 and objects_list[1] == 0:
         send_email(object_image)
+        clean_folder()
 
     # Add Day and Time overlay on the video feed
     cv2.putText(frame,

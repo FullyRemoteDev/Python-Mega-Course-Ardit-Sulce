@@ -31,4 +31,4 @@ def send_email(image_path):
     gmail.quit()
 
 if __name__ == '__main__':
-    send_email(image_path='images/test_img.png')
+    send_email(image_path='images/test_img.jpg')
