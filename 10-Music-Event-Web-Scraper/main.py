@@ -20,7 +20,24 @@ def extract_info(source):
     return extracted_content
 
 
+def send_email():
+    print("Email was sent!")
+
+
+def store_text(extracted):
+    with open('data.txt', 'a') as file:
+        file.write(extracted + '\n')
+
+def read_text(extracted):
+    with open('data.txt', 'r') as file:
+        return file.read()
+
+
 if __name__ == '__main__':
     scraped_content = scrape_page(URL)
     tour_info = extract_info(scraped_content)
     print(tour_info)
+    content = read_text(tour_info)
+    if tour_info not in content:
+        store_text(tour_info)
+        send_email()
