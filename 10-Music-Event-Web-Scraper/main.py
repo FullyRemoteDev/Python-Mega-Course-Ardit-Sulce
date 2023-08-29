@@ -4,6 +4,7 @@ import smtplib
 import ssl
 import os
 import time
+import sqlite3
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -12,6 +13,8 @@ URL = 'http://programmer100.pythonanywhere.com/tours/'
 HEADERS = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) '
                   'AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36'}
+
+connection = sqlite3.connect('data.db')
 
 
 def scrape_page(url):
@@ -43,14 +46,24 @@ def send_email(message):
     print("Email was sent!")
 
 
-def store_text(extracted):
-    with open('data.txt', 'a') as file:
-        file.write(extracted + '\n')
+def store_db(extracted):
+    row = extracted.split(',')
+    row = [item.strip() for item in row]
+    cursor = connection.cursor()
+    cursor.execute("INSERT INTO events VALUES(?,?,?)", row)
+    connection.commit()
 
 
-def read_text(data_file):
-    with open(data_file, 'r') as file:
-        return file.read()
+def read_db(extracted):
+    row = extracted.split(',')
+    row = [item.strip() for item in row]
+    band, city, date = row
+    cursor = connection.cursor()
+    cursor.execute("SELECT * FROM events WHERE band=? AND city=? AND date=?",
+                   (band, city, date))
+    rows = cursor.fetchall()
+    print(rows)
+    return rows
 
 
 if __name__ == '__main__':
@@ -59,11 +72,10 @@ if __name__ == '__main__':
         tour_info = extract_info(scraped_content)
         print(tour_info)
 
-        content = read_text('data.txt')
-
         if tour_info != "No upcoming tours":
-            if tour_info not in content:
-                store_text(tour_info)
+            row = read_db(tour_info)
+            if not row:
+                store_db(tour_info)
                 send_email(message="New event was found!")
 
-        time.sleep(3600)
+        time.sleep(3)
