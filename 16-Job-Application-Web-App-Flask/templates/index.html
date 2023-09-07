@@ -11,7 +11,7 @@
 <body>
     <div class="container">
         <h1 class="mt-4 mb-4">Job Application Form</h1>
-        <form action="" method="post">
+        <form method="post">
             <div class="form-group mb-4">
                 <label for="first_name">First Name:</label>
                 <input class="form-control" type="text" id="first_name" name="first_name" required>
@@ -21,7 +21,7 @@
                 <input class="form-control" type="text" id="last_name" name="last_name" required>
             </div>
             <div class="form-group mb-4">
-                <label for="email_id">Last Name:</label>
+                <label for="email_id">Email ID:</label>
                 <input class="form-control" type="email" id="email_id" name="email_id" required>
             </div>
             <div class="form-group mb-4">
@@ -32,21 +32,21 @@
                 <label>Current Occupation:</label>
                 <br>
                 <div class="btn-group-vertical" id="occupation">
-                    <input class="btn-check form-control" type="radio" id="employed" name="occupation" required>
+                    <input class="btn-check form-control" type="radio" id="employed" name="occupation" value="employed" required>
                     <label class="btn btn-outline-secondary" for="employed">Employed</label>
 
-                    <input class="btn-check form-control" type="radio" id="unemployed" name="occupation" required>
+                    <input class="btn-check form-control" type="radio" id="unemployed" name="occupation" value="unemployed" required>
                     <label class="btn btn-outline-secondary" for="unemployed">Unemployed</label>
 
-                    <input class="btn-check form-control" type="radio" id="self-employed" name="occupation" required>
+                    <input class="btn-check form-control" type="radio" id="self-employed" name="occupation" value="self-employed" required>
                     <label class="btn btn-outline-secondary" for="self-employed">Self-Employed</label>
 
-                    <input class="btn-check form-control" type="radio" id="student" name="occupation" required>
+                    <input class="btn-check form-control" type="radio" id="student" name="occupation" value="student" required>
                     <label class="btn btn-outline-secondary" for="student">Student</label>
                 </div>
             </div>
             <br>
-            <button class="btn btn-secondary mb4" type="button">Submit</button>
+            <button class="btn btn-secondary mb4" type="submit">Submit</button>
         </form>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
