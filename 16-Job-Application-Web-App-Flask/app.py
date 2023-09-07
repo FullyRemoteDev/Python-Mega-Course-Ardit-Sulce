@@ -1,7 +1,8 @@
+import os
+from datetime import datetime
+from dotenv import load_dotenv
 from flask import Flask, render_template, request
 from flask_sqlalchemy import SQLAlchemy
-import os
-from dotenv import load_dotenv
 
 load_dotenv()
 
@@ -28,13 +29,21 @@ def index():
         last_name = request.form['last_name']
         email_id = request.form['email_id']
         start_date = request.form['date']
+        date_obj = datetime.strptime(start_date, '%Y-%m-%d')
         occupation = request.form['occupation']
         # print([first_name, last_name, email_id, start_date, occupation])
 
-    elif request.method == 'GET':
-        pass
+        form = Form(first_name=first_name,
+                    last_name=last_name,
+                    email_id=email_id,
+                    start_date=date_obj,
+                    occupation=occupation)
+
+        db.session.add(form)
+        db.session.commit()
 
     return render_template('index.html')
+
 
 if __name__ == '__main__':
     with app.app_context():
